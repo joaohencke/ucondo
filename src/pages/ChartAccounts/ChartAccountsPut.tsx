@@ -8,13 +8,19 @@ import {
   useTheme,
   Box,
 } from 'native-base';
-import { useNavigation } from '@react-navigation/native';
+import {
+  RouteConfig,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import { useLayoutEffect } from 'react';
 import { Feather } from '@expo/vector-icons';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
 import { gql, useQuery } from '@apollo/client';
 import Select from '../../components/Select';
 import Input from '../../components/Input';
+import Label from '../../components/Label';
 import {
   IChartAccount,
   ChartAccountType,
@@ -24,10 +30,17 @@ import {
   ChartAccount,
   chartAccounts,
 } from '../../apollo/cache/chartAccounts';
+import { StackNavigationProp } from '@react-navigation/stack';
+
+type ProfileScreenNavigationProp = RouteProp<
+  { 'coa.put': { id?: string } },
+  'coa.put'
+>;
 
 export default function ChartAccountsPut(): JSX.Element {
   const navigation = useNavigation();
   const toast = useToast();
+  const route = useRoute<ProfileScreenNavigationProp>();
   const theme = useTheme();
   const methods = useForm<IChartAccount>({
     shouldUnregister: false,
@@ -39,23 +52,41 @@ export default function ChartAccountsPut(): JSX.Element {
       name: '',
     },
   });
-  const { handleSubmit, formState, setValue } = methods;
+  const { handleSubmit, formState, setValue, reset } = methods;
   const { errors } = formState;
+  const isInputDisabled = !!route.params?.id;
 
   const { data } = useQuery<{
     chartAccounts: IChartAccount[];
+    chartAccount?: IChartAccount;
   }>(
     gql`
-      query Q($acceptRelease: Boolean) {
+      query Q($acceptRelease: Boolean, $id: ID, $isEdit: Boolean!) {
         chartAccounts(acceptRelease: $acceptRelease) @client {
           id
           code
           name
         }
+        chartAccount(id: $id) @client @include(if: $isEdit) {
+          name
+          code
+          parentId
+          type
+          acceptRelease
+        }
       }
     `,
     {
-      variables: { acceptRelease: false },
+      variables: {
+        acceptRelease: false,
+        id: route.params?.id,
+        isEdit: !!route.params?.id,
+      },
+      onCompleted: ({ chartAccount }) => {
+        if (chartAccount) {
+          reset(chartAccount);
+        }
+      },
     },
   );
 
@@ -84,7 +115,7 @@ export default function ChartAccountsPut(): JSX.Element {
   const onChangeParent = (parentId: string) => {
     try {
       const nextCode = ChartAccount.nextValidCode(parentId);
-      methods.reset({
+      reset({
         ...methods.getValues(),
         code: nextCode,
       });
@@ -112,6 +143,7 @@ export default function ChartAccountsPut(): JSX.Element {
           <IconButton
             mr={2}
             onPress={submit}
+            isDisabled={isInputDisabled}
             icon={
               <Feather
                 name="check"
@@ -123,7 +155,7 @@ export default function ChartAccountsPut(): JSX.Element {
         );
       },
     });
-  }, [navigation]);
+  }, [navigation, isInputDisabled]);
 
   return (
     <>
@@ -135,52 +167,69 @@ export default function ChartAccountsPut(): JSX.Element {
       >
         <Stack p={10} borderRadius={10}>
           <FormProvider {...methods}>
-            <FormControl>
-              <FormControl.Label>Conta pai</FormControl.Label>
-              <Select
-                name="parentId"
-                onValueChange={onChangeParent}
-                options={
-                  data?.chartAccounts.map((x) => ({
-                    label: `${x.code} - ${x.name}`,
-                    value: x.id,
-                  })) ?? []
-                }
-              />
-            </FormControl>
-            <FormControl isInvalid={'code' in errors}>
-              <FormControl.Label>Código</FormControl.Label>
-              <Input
-                isRequired
-                name="code"
-                keyboardType="numbers-and-punctuation"
-              />
-            </FormControl>
-            <FormControl isInvalid={'name' in errors}>
-              <FormControl.Label>Nome</FormControl.Label>
-              <Input name="name" isRequired />
-            </FormControl>
-            <FormControl isInvalid={'type' in errors}>
-              <FormControl.Label>Tipo</FormControl.Label>
-              <Select
-                isRequired
-                name="type"
-                options={[
-                  { label: 'Receita', value: ChartAccountType.receita },
-                  { label: 'Despesa', value: ChartAccountType.despesa },
-                ]}
-              />
-            </FormControl>
-            <FormControl>
-              <FormControl.Label>Aceita lançamentos</FormControl.Label>
-              <Select
-                name="acceptRelease"
-                options={[
-                  { label: 'Sim', value: true },
-                  { label: 'Não', value: false },
-                ]}
-              />
-            </FormControl>
+            <Stack space={2}>
+              <FormControl isDisabled={isInputDisabled}>
+                <Select
+                  label="Conta pai"
+                  name="parentId"
+                  onValueChange={onChangeParent}
+                  placeholder="Selecione a conta pai"
+                  options={
+                    data?.chartAccounts.map((x) => ({
+                      label: `${x.code} - ${x.name}`,
+                      value: x.id,
+                    })) ?? []
+                  }
+                />
+              </FormControl>
+              <FormControl
+                isDisabled={isInputDisabled}
+                isInvalid={'code' in errors}
+              >
+                <Input
+                  isRequired
+                  label="Código"
+                  name="code"
+                  keyboardType="numbers-and-punctuation"
+                  placeholder="Digite o código"
+                />
+              </FormControl>
+              <FormControl
+                isDisabled={isInputDisabled}
+                isInvalid={'name' in errors}
+              >
+                <Input
+                  isRequired
+                  name="name"
+                  label="Nome"
+                  placeholder="Digite o nome"
+                />
+              </FormControl>
+              <FormControl
+                isDisabled={isInputDisabled}
+                isInvalid={'type' in errors}
+              >
+                <Select
+                  isRequired
+                  name="type"
+                  label="Tipo"
+                  options={[
+                    { label: 'Receita', value: ChartAccountType.receita },
+                    { label: 'Despesa', value: ChartAccountType.despesa },
+                  ]}
+                />
+              </FormControl>
+              <FormControl isDisabled={isInputDisabled}>
+                <Select
+                  name="acceptRelease"
+                  label="Aceita lançamentos"
+                  options={[
+                    { label: 'Sim', value: true },
+                    { label: 'Não', value: false },
+                  ]}
+                />
+              </FormControl>
+            </Stack>
           </FormProvider>
         </Stack>
       </ScrollView>

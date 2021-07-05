@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { Stack, FlatList, Box, IconButton, Text, useTheme } from 'native-base';
+import {
+  Stack,
+  FlatList,
+  Box,
+  IconButton,
+  Text,
+  useTheme,
+  Pressable,
+} from 'native-base';
 import { Feather } from '@expo/vector-icons';
 import { gql, useQuery } from '@apollo/client';
 import {
@@ -10,10 +18,12 @@ import { remove } from '../../apollo/cache/chartAccounts';
 import { SearchInput } from './styles';
 import useDebounce from '../../hooks/useDebounce';
 import { useForm, FormProvider } from 'react-hook-form';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ChartAccountsList(): JSX.Element {
   const debouncer = useDebounce();
   const [search, setSearch] = useState('');
+  const navigation = useNavigation();
   const theme = useTheme();
   const { data, loading, refetch } = useQuery<{
     chartAccounts: IChartAccount[];
@@ -77,7 +87,10 @@ export default function ChartAccountsList(): JSX.Element {
           refreshing={loading}
           onRefresh={refetch}
           renderItem={({ item }) => (
-            <Box px={5}>
+            <Pressable
+              px={5}
+              onPress={() => navigation.navigate('coa.put', { id: item.id })}
+            >
               <Stack
                 direction="row"
                 p={4}
@@ -98,11 +111,15 @@ export default function ChartAccountsList(): JSX.Element {
                   variant="ghost"
                   onPress={() => [remove(item.id), refetch()]}
                   icon={
-                    <Feather color={theme.colors.custom.muted} name="trash" />
+                    <Feather
+                      size={20}
+                      color={theme.colors.custom.muted}
+                      name="trash"
+                    />
                   }
                 />
               </Stack>
-            </Box>
+            </Pressable>
           )}
           ListHeaderComponent={() => (
             <Stack p={5} direction="row" justifyContent="space-between">

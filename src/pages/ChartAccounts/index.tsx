@@ -1,14 +1,18 @@
 import React from 'react';
-import { Box, Button, useTheme, IconButton } from 'native-base';
+import { Box, Button, useTheme, IconButton, Text } from 'native-base';
 
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackHeaderTitleProps,
+} from '@react-navigation/stack';
 import List from './ChartAccountsList';
 import Put from './ChartAccountsPut';
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 
-const { Navigator, Screen } = createStackNavigator();
+const { Navigator, Screen } =
+  createStackNavigator<{ 'coa.list': undefined; 'coa.put': { id?: string } }>();
 
 export default function ChartAccounts(): JSX.Element {
   const navigation = useNavigation();
@@ -56,10 +60,10 @@ export default function ChartAccounts(): JSX.Element {
       <Screen
         name="coa.put"
         component={Put}
-        options={{
-          title: 'Criar Conta',
+        options={({ route }) => ({
+          title: route.params?.id ? 'Visualizar conta' : 'Criar Conta',
           headerBackTitleVisible: false,
-        }}
+        })}
       />
     </Navigator>
   );
