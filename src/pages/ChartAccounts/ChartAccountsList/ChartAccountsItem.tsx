@@ -35,15 +35,25 @@ export default function ChartAccountsItem({
     if (isRemoving) {
       return;
     }
+    setRemoving(true);
     try {
-      setRemoving(true);
       await remove(item.id);
-      setRemoving(false);
-      toast.show({ status: 'success', title: 'Item removido com sucesso' });
+      toast.show({
+        status: 'success',
+        title: 'Item removido com sucesso',
+        duration: 2000,
+      });
     } catch (e) {
-      toast.show({ status: 'error', title: 'Problemas ao remover o item' });
+      toast.show({
+        status: 'error',
+        title: 'Problemas ao remover o item',
+        duration: 2000,
+      });
+    } finally {
+      setRemoving(false);
+      onRemoveCompleted();
+      setConfirmationOpened(false);
     }
-    onRemoveCompleted();
   };
 
   const toggleConfirmation = (val?: boolean) =>

@@ -98,12 +98,14 @@ export default function ChartAccountsPut(): JSX.Element {
         toast.show({
           status: 'success',
           title: 'Plano de Conta cadastrado com sucesso',
+          duration: 2000,
         });
         navigation.navigate('coa.list');
       } catch (e) {
         toast.show({
           status: 'error',
           title: e.message,
+          duration: 2000,
         });
       }
     },
