@@ -19,11 +19,9 @@ export default function ChartAccountsList(): JSX.Element {
       query Q($search: String) {
         chartAccounts(search: $search) @client {
           id
-          ... on ChartAccount {
-            name
-            code
-            type
-          }
+          name
+          code
+          type
         }
       }
     `,
