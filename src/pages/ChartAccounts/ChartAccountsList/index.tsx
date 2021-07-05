@@ -1,22 +1,9 @@
 import React, { useState } from 'react';
-import {
-  Stack,
-  FlatList,
-  Box,
-  IconButton,
-  Text,
-  useTheme,
-  Pressable,
-} from 'native-base';
+import { Stack, FlatList, Box, Text, useTheme } from 'native-base';
 import { Feather } from '@expo/vector-icons';
 import { gql, useQuery } from '@apollo/client';
 import { useForm, FormProvider } from 'react-hook-form';
-import { useNavigation } from '@react-navigation/native';
-import {
-  ChartAccountType,
-  IChartAccount,
-} from '../../../apollo/cache/chartAccounts/types';
-import { remove } from '../../../apollo/cache/chartAccounts';
+import { IChartAccount } from '../../../apollo/cache/chartAccounts/types';
 import useDebounce from '../../../hooks/useDebounce';
 import { SearchInput } from './styles';
 import ChartAccountsItem from './ChartAccountsItem';
@@ -24,7 +11,6 @@ import ChartAccountsItem from './ChartAccountsItem';
 export default function ChartAccountsList(): JSX.Element {
   const debouncer = useDebounce();
   const [search, setSearch] = useState('');
-  const navigation = useNavigation();
   const theme = useTheme();
   const { data, loading, refetch } = useQuery<{
     chartAccounts: IChartAccount[];
@@ -87,6 +73,7 @@ export default function ChartAccountsList(): JSX.Element {
           data={data?.chartAccounts}
           refreshing={loading}
           onRefresh={refetch}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <ChartAccountsItem item={item} onRemoveCompleted={refetch} />
           )}
