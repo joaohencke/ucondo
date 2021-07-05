@@ -1,15 +1,11 @@
 import React from 'react';
-import { Box, Button, useTheme, IconButton, Text } from 'native-base';
-
-import {
-  createStackNavigator,
-  StackHeaderTitleProps,
-} from '@react-navigation/stack';
-import List from './ChartAccountsList';
-import Put from './ChartAccountsPut';
-import { TouchableOpacity } from 'react-native';
+import { useTheme, IconButton } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
+import { createStackNavigator } from '@react-navigation/stack';
+
+import List from './ChartAccountsList';
+import Put from './ChartAccountsPut';
 
 const { Navigator, Screen } =
   createStackNavigator<{ 'coa.list': undefined; 'coa.put': { id?: string } }>();

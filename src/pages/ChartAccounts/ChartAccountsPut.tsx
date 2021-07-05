@@ -8,12 +8,7 @@ import {
   useTheme,
   Box,
 } from 'native-base';
-import {
-  RouteConfig,
-  RouteProp,
-  useNavigation,
-  useRoute,
-} from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { useLayoutEffect } from 'react';
 import { Feather } from '@expo/vector-icons';
 import { useForm, FormProvider, Controller } from 'react-hook-form';

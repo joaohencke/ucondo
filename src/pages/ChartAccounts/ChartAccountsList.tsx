@@ -10,6 +10,8 @@ import {
 } from 'native-base';
 import { Feather } from '@expo/vector-icons';
 import { gql, useQuery } from '@apollo/client';
+import { useForm, FormProvider } from 'react-hook-form';
+import { useNavigation } from '@react-navigation/native';
 import {
   ChartAccountType,
   IChartAccount,
@@ -17,8 +19,6 @@ import {
 import { remove } from '../../apollo/cache/chartAccounts';
 import { SearchInput } from './styles';
 import useDebounce from '../../hooks/useDebounce';
-import { useForm, FormProvider } from 'react-hook-form';
-import { useNavigation } from '@react-navigation/native';
 
 export default function ChartAccountsList(): JSX.Element {
   const debouncer = useDebounce();
