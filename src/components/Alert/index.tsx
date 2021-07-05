@@ -1,12 +1,5 @@
 import React, { useRef } from 'react';
-import {
-  Center,
-  AlertDialog,
-  Button,
-  Stack,
-  useTheme,
-  Text,
-} from 'native-base';
+import { AlertDialog, Button, Stack, useTheme, Text } from 'native-base';
 
 interface AlertProps {
   isOpen?: boolean;
@@ -27,30 +20,29 @@ export default function CustomAlert({
   const theme = useTheme();
 
   return (
-    <Center>
-      <AlertDialog
-        leastDestructiveRef={cancelRef}
-        isOpen={isOpen}
-        onClose={() => toggle(false)}
-      >
-        <AlertDialog.Content>
-          <AlertDialog.Header>{title}</AlertDialog.Header>
-          <AlertDialog.Body>{message}</AlertDialog.Body>
-          <AlertDialog.Footer>
-            <Stack space={2} direction="row">
-              <Button ref={cancelRef} onPress={() => toggle()} variant="ghost">
-                <Text color={theme.colors.custom.danger}> Não!</Text>
-              </Button>
-              <Button
-                onPress={onConfirmation}
-                bgColor={theme.colors.custom.danger}
-              >
-                Com certeza
-              </Button>
-            </Stack>
-          </AlertDialog.Footer>
-        </AlertDialog.Content>
-      </AlertDialog>
-    </Center>
+    <AlertDialog
+      leastDestructiveRef={cancelRef}
+      isOpen={isOpen}
+      onClose={() => toggle(false)}
+      finalFocusRef={cancelRef}
+    >
+      <AlertDialog.Content>
+        <AlertDialog.Header>{title}</AlertDialog.Header>
+        <AlertDialog.Body>{message}</AlertDialog.Body>
+        <AlertDialog.Footer>
+          <Stack space={2} direction="row">
+            <Button ref={cancelRef} onPress={() => toggle()} variant="ghost">
+              <Text color={theme.colors.custom.danger}> Não!</Text>
+            </Button>
+            <Button
+              onPress={onConfirmation}
+              bgColor={theme.colors.custom.danger}
+            >
+              Com certeza
+            </Button>
+          </Stack>
+        </AlertDialog.Footer>
+      </AlertDialog.Content>
+    </AlertDialog>
   );
 }
