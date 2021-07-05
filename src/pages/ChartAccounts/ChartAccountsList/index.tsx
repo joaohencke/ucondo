@@ -34,7 +34,7 @@ export default function ChartAccountsList(): JSX.Element {
   const methods = useForm({ defaultValues: { search: '' } });
 
   return (
-    <Stack>
+    <Stack flex={1}>
       <FormProvider {...methods}>
         <Box
           bg={theme.colors.custom.primary}
@@ -70,8 +70,8 @@ export default function ChartAccountsList(): JSX.Element {
       <Box
         borderTopRadius={30}
         marginTop={-10}
-        h="100%"
         bg={theme.colors.custom.secondary}
+        flex={1}
       >
         <FlatList
           data={data?.chartAccounts}
@@ -79,7 +79,10 @@ export default function ChartAccountsList(): JSX.Element {
           onRefresh={refetch}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <ChartAccountsItem item={item} onRemoveCompleted={refetch} />
+            <ChartAccountsItem
+              item={item}
+              onRemoveCompleted={() => refetch()}
+            />
           )}
           ListHeaderComponent={() => (
             <Stack p={5} direction="row" justifyContent="space-between">
