@@ -31,7 +31,15 @@ export default {
       return values;
     },
   },
-} as { chartAccounts: FieldPolicy<IChartAccount[]> };
+  chartAccount: {
+    read: (_, { variables }) => {
+      return chartAccounts().find((x) => x.id === variables?.id);
+    },
+  },
+} as {
+  chartAccounts: FieldPolicy<IChartAccount[]>;
+  chartAccount: FieldPolicy<IChartAccount>;
+};
 
 export class ChartAccount implements IChartAccount {
   id: string;
@@ -157,5 +165,4 @@ const sortByCode = (a: IChartAccount, b: IChartAccount) => {
   }
 
   chartAccounts(JSON.parse(stored));
-  console.log(stored);
 })();
