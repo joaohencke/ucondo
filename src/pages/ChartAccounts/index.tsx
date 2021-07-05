@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, useTheme } from 'native-base';
+import { Box, Button, useTheme, IconButton } from 'native-base';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import List from './ChartAccountsList';
@@ -13,6 +13,7 @@ const { Navigator, Screen } = createStackNavigator();
 export default function ChartAccounts(): JSX.Element {
   const navigation = useNavigation();
   const theme = useTheme();
+
   return (
     <Navigator
       initialRouteName="coa.list"
@@ -22,7 +23,11 @@ export default function ChartAccounts(): JSX.Element {
         headerTintColor: theme.colors.custom.white,
         headerStyle: {
           backgroundColor: theme.colors.custom.primary,
-          padding: '10px',
+          borderBottomWidth: 0,
+          shadowOffset: {
+            height: 0,
+            width: 100,
+          },
         },
       }}
     >
@@ -33,12 +38,17 @@ export default function ChartAccounts(): JSX.Element {
           title: 'Plano de Contas',
           headerRight() {
             return (
-              <Button
-                variant="ghost"
+              <IconButton
+                mr={2}
                 onPress={() => navigation.navigate('coa.put')}
-              >
-                <Feather name="plus" />
-              </Button>
+                icon={
+                  <Feather
+                    name="plus"
+                    size={26}
+                    color={theme.colors.custom.white}
+                  />
+                }
+              />
             );
           },
         }}

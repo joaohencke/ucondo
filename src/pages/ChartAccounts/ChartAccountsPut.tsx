@@ -5,6 +5,8 @@ import {
   ScrollView,
   IconButton,
   useToast,
+  useTheme,
+  Box,
 } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { useLayoutEffect } from 'react';
@@ -26,6 +28,7 @@ import {
 export default function ChartAccountsPut(): JSX.Element {
   const navigation = useNavigation();
   const toast = useToast();
+  const theme = useTheme();
   const methods = useForm<IChartAccount>({
     shouldUnregister: false,
     defaultValues: {
@@ -105,63 +108,82 @@ export default function ChartAccountsPut(): JSX.Element {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight() {
-        return <IconButton onPress={submit} icon={<Feather name="check" />} />;
+        return (
+          <IconButton
+            mr={2}
+            onPress={submit}
+            icon={
+              <Feather
+                name="check"
+                size={26}
+                color={theme.colors.custom.white}
+              />
+            }
+          />
+        );
       },
     });
   }, [navigation]);
 
   return (
-    <ScrollView>
-      <Stack>
-        <FormProvider {...methods}>
-          <FormControl>
-            <FormControl.Label>Conta pai</FormControl.Label>
-            <Select
-              name="parentId"
-              onValueChange={onChangeParent}
-              options={
-                data?.chartAccounts.map((x) => ({
-                  label: `${x.code} - ${x.name}`,
-                  value: x.id,
-                })) ?? []
-              }
-            />
-          </FormControl>
-          <FormControl isInvalid={'code' in errors}>
-            <FormControl.Label>Código</FormControl.Label>
-            <Input
-              isRequired
-              name="code"
-              keyboardType="numbers-and-punctuation"
-            />
-          </FormControl>
-          <FormControl isInvalid={'name' in errors}>
-            <FormControl.Label>Nome</FormControl.Label>
-            <Input name="name" isRequired />
-          </FormControl>
-          <FormControl isInvalid={'type' in errors}>
-            <FormControl.Label>Tipo</FormControl.Label>
-            <Select
-              isRequired
-              name="type"
-              options={[
-                { label: 'Receita', value: ChartAccountType.receita },
-                { label: 'Despesa', value: ChartAccountType.despesa },
-              ]}
-            />
-          </FormControl>
-          <FormControl>
-            <FormControl.Label>Aceita lançamentos</FormControl.Label>
-            <Select
-              name="acceptRelease"
-              options={[
-                { label: 'Sim', value: true },
-                { label: 'Não', value: false },
-              ]}
-            />
-          </FormControl>
-        </FormProvider>
-      </Stack>
-    </ScrollView>
+    <>
+      <Box h={10} bgColor={theme.colors.custom.primary} />
+      <ScrollView
+        bgColor={theme.colors.custom.secondary}
+        marginTop={-10}
+        borderRadius={30}
+      >
+        <Stack p={10} borderRadius={10}>
+          <FormProvider {...methods}>
+            <FormControl>
+              <FormControl.Label>Conta pai</FormControl.Label>
+              <Select
+                name="parentId"
+                onValueChange={onChangeParent}
+                options={
+                  data?.chartAccounts.map((x) => ({
+                    label: `${x.code} - ${x.name}`,
+                    value: x.id,
+                  })) ?? []
+                }
+              />
+            </FormControl>
+            <FormControl isInvalid={'code' in errors}>
+              <FormControl.Label>Código</FormControl.Label>
+              <Input
+                isRequired
+                name="code"
+                keyboardType="numbers-and-punctuation"
+              />
+            </FormControl>
+            <FormControl isInvalid={'name' in errors}>
+              <FormControl.Label>Nome</FormControl.Label>
+              <Input name="name" isRequired />
+            </FormControl>
+            <FormControl isInvalid={'type' in errors}>
+              <FormControl.Label>Tipo</FormControl.Label>
+              <Select
+                isRequired
+                name="type"
+                options={[
+                  { label: 'Receita', value: ChartAccountType.receita },
+                  { label: 'Despesa', value: ChartAccountType.despesa },
+                ]}
+              />
+            </FormControl>
+            <FormControl>
+              <FormControl.Label>Aceita lançamentos</FormControl.Label>
+              <Select
+                name="acceptRelease"
+                options={[
+                  { label: 'Sim', value: true },
+                  { label: 'Não', value: false },
+                ]}
+              />
+            </FormControl>
+          </FormProvider>
+        </Stack>
+      </ScrollView>
+    </>
   );
 }

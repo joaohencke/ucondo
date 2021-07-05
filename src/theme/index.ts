@@ -2,6 +2,13 @@ import { extendTheme } from 'native-base';
 
 export default extendTheme({
   colors: {
+    primary: {
+      400: '#622490',
+    },
+    secondary: {
+      400: '#F0EDF5',
+    },
+
     custom: {
       primary: '#622490',
       secondary: '#F0EDF5',

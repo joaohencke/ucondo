@@ -1,6 +1,7 @@
 import React from 'react';
-import { Select, ISelectProps } from 'native-base';
+import { ISelectProps, Box, useTheme } from 'native-base';
 import { useController } from 'react-hook-form';
+import Select from './style';
 
 interface Option {
   label: string;
@@ -18,6 +19,7 @@ export default function CustomSelect({
   name,
   ...props
 }: SelectProps): JSX.Element {
+  const theme = useTheme();
   const { field, fieldState } = useController({
     name,
     rules: {
@@ -28,15 +30,17 @@ export default function CustomSelect({
   const { value, onChange, ref } = field;
 
   return (
-    <Select
-      {...props}
-      onValueChange={(e) => [onChange(e), props.onValueChange?.(e)]}
-      selectedValue={value.toString()}
-      ref={ref}
-    >
-      {options.map(({ label, value }, i) => (
-        <Select.Item key={i} label={label} value={value.toString()} />
-      ))}
-    </Select>
+    <Box bg={theme.colors.custom.white} borderRadius={15} overflow="hidden">
+      <Select
+        {...props}
+        onValueChange={(e) => [onChange(e), props.onValueChange?.(e)]}
+        selectedValue={value.toString()}
+        ref={ref}
+      >
+        {options.map(({ label, value }, i) => (
+          <Select.Item key={i} label={label} value={value.toString()} />
+        ))}
+      </Select>
+    </Box>
   );
 }
