@@ -67,7 +67,12 @@ export default function ChartAccountsList(): JSX.Element {
           </Box>
         </Box>
       </FormProvider>
-      <Box borderRadius={30} marginTop={-10} bg={theme.colors.custom.secondary}>
+      <Box
+        borderTopRadius={30}
+        marginTop={-10}
+        h="100%"
+        bg={theme.colors.custom.secondary}
+      >
         <FlatList
           data={data?.chartAccounts}
           refreshing={loading}
