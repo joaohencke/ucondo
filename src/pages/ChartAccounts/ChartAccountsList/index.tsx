@@ -84,7 +84,11 @@ export default function ChartAccountsList(): JSX.Element {
               </Text>
             </Stack>
           )}
-          ListEmptyComponent={() => <Text>Sem itens</Text>}
+          ListEmptyComponent={() => (
+            <Box p={5}>
+              <Text color={theme.colors.custom.muted}>Sem itens</Text>
+            </Box>
+          )}
         />
       </Box>
     </Stack>
