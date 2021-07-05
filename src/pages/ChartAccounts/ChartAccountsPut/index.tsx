@@ -13,18 +13,18 @@ import { useLayoutEffect } from 'react';
 import { Feather } from '@expo/vector-icons';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
 import { gql, useQuery } from '@apollo/client';
-import Select from '../../components/Select';
-import Input from '../../components/Input';
-import Label from '../../components/Label';
+import Select from '../../../components/Select';
+import Input from '../../../components/Input';
+import Label from '../../../components/Label';
 import {
   IChartAccount,
   ChartAccountType,
-} from '../../apollo/cache/chartAccounts/types';
+} from '../../../apollo/cache/chartAccounts/types';
 import {
   add,
   ChartAccount,
   chartAccounts,
-} from '../../apollo/cache/chartAccounts';
+} from '../../../apollo/cache/chartAccounts';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 type ProfileScreenNavigationProp = RouteProp<
@@ -86,9 +86,9 @@ export default function ChartAccountsPut(): JSX.Element {
   );
 
   const submit = handleSubmit(
-    ({ name, parentId, code, acceptRelease, type }) => {
+    async ({ name, parentId, code, acceptRelease, type }) => {
       try {
-        add({
+        await add({
           name,
           parentId,
           code,
@@ -100,6 +100,7 @@ export default function ChartAccountsPut(): JSX.Element {
         });
         navigation.navigate('coa.list');
       } catch (e) {
+        console.log('aho');
         toast.show({
           title: e.message,
         });

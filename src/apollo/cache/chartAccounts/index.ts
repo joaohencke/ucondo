@@ -121,7 +121,7 @@ export const add = async (value: Partial<IChartAccount>) => {
     new ChartAccount(value as IChartAccount),
   ];
   chartAccounts(newValue);
-  flush();
+  await flush();
   return newValue;
 };
 
@@ -141,9 +141,9 @@ const _delete = (id: string) => {
   children.forEach((child) => _delete(child.id));
 };
 
-export const remove = (id: string) => {
+export const remove = async (id: string) => {
   _delete(id);
-  flush();
+  await flush();
 };
 
 const sortByCode = (a: IChartAccount, b: IChartAccount) => {

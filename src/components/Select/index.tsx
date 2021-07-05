@@ -35,9 +35,10 @@ export default function CustomSelect({
   return (
     <>
       {label && <Label>{label}</Label>}
-      <Box bg={theme.colors.custom.white} borderRadius={15} overflow="hidden">
+      <Box bg={theme.colors.custom.white} borderRadius={10} overflow="hidden">
         <Select
           {...props}
+          variant="unstyled"
           onValueChange={(e) => [onChange(e), props.onValueChange?.(e)]}
           selectedValue={value.toString()}
           ref={ref}

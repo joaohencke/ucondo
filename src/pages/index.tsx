@@ -1,7 +1,5 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { gql, useQuery } from '@apollo/client';
-
 import ChartAccounts from './ChartAccounts';
 import { createStackNavigator } from '@react-navigation/stack';
 

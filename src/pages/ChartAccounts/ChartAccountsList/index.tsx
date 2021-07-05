@@ -15,10 +15,11 @@ import { useNavigation } from '@react-navigation/native';
 import {
   ChartAccountType,
   IChartAccount,
-} from '../../apollo/cache/chartAccounts/types';
-import { remove } from '../../apollo/cache/chartAccounts';
+} from '../../../apollo/cache/chartAccounts/types';
+import { remove } from '../../../apollo/cache/chartAccounts';
+import useDebounce from '../../../hooks/useDebounce';
 import { SearchInput } from './styles';
-import useDebounce from '../../hooks/useDebounce';
+import ChartAccountsItem from './ChartAccountsItem';
 
 export default function ChartAccountsList(): JSX.Element {
   const debouncer = useDebounce();
@@ -87,39 +88,7 @@ export default function ChartAccountsList(): JSX.Element {
           refreshing={loading}
           onRefresh={refetch}
           renderItem={({ item }) => (
-            <Pressable
-              px={5}
-              onPress={() => navigation.navigate('coa.put', { id: item.id })}
-            >
-              <Stack
-                direction="row"
-                p={4}
-                mb={3}
-                alignItems="center"
-                justifyContent="space-between"
-                bg={theme.colors.custom.white}
-                borderRadius={16}
-              >
-                <Text
-                  color={
-                    item.type === ChartAccountType.receita
-                      ? theme.colors.custom.warning
-                      : theme.colors.custom.success
-                  }
-                >{`${item.code} - ${item.name}`}</Text>
-                <IconButton
-                  variant="ghost"
-                  onPress={() => [remove(item.id), refetch()]}
-                  icon={
-                    <Feather
-                      size={20}
-                      color={theme.colors.custom.muted}
-                      name="trash"
-                    />
-                  }
-                />
-              </Stack>
-            </Pressable>
+            <ChartAccountsItem item={item} onRemoveCompleted={refetch} />
           )}
           ListHeaderComponent={() => (
             <Stack p={5} direction="row" justifyContent="space-between">

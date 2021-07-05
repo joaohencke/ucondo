@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import Input from '../../components/Input';
+import Input from '../../../components/Input';
 
 export const SearchInput = styled(Input)`
   height: 40px;
