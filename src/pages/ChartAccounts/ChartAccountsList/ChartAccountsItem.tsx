@@ -6,6 +6,7 @@ import {
   useTheme,
   Pressable,
   Center,
+  useToast,
 } from 'native-base';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -29,14 +30,19 @@ export default function ChartAccountsItem({
   const theme = useTheme();
   const [isRemoving, setRemoving] = useState(false);
   const [isConfirmationOpened, setConfirmationOpened] = useState(false);
-
+  const toast = useToast();
   const onRemove = async () => {
     if (isRemoving) {
       return;
     }
-    setRemoving(true);
-    await remove(item.id);
-    setRemoving(false);
+    try {
+      setRemoving(true);
+      await remove(item.id);
+      setRemoving(false);
+      toast.show({ status: 'success', title: 'Item removido com sucesso' });
+    } catch (e) {
+      toast.show({ status: 'error', title: 'Problemas ao remover o item' });
+    }
     onRemoveCompleted();
   };
 
