@@ -58,7 +58,14 @@ export default function ChartAccountsItem({
             />
           </Center>
         }
-        message={`Deseja excluir a conta ${item.code} - ${item.name}`}
+        message={
+          <Center>
+            <Text>
+              Deseja excluir a conta{' '}
+              <Text bold>{`${item.code} - ${item.name}`}</Text>?
+            </Text>
+          </Center>
+        }
       />
       <Pressable
         px={5}

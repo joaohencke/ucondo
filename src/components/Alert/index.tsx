@@ -1,12 +1,19 @@
-import React, { useRef, useState } from 'react';
-import { Center, AlertDialog, Button, Stack, useTheme } from 'native-base';
+import React, { useRef } from 'react';
+import {
+  Center,
+  AlertDialog,
+  Button,
+  Stack,
+  useTheme,
+  Text,
+} from 'native-base';
 
 interface AlertProps {
   isOpen?: boolean;
   toggle: (val?: boolean) => void;
   onConfirmation: () => void;
   title: string | JSX.Element;
-  message: string;
+  message: string | JSX.Element;
 }
 
 export default function CustomAlert({
@@ -31,13 +38,8 @@ export default function CustomAlert({
           <AlertDialog.Body>{message}</AlertDialog.Body>
           <AlertDialog.Footer>
             <Stack space={2} direction="row">
-              <Button
-                ref={cancelRef}
-                onPress={() => toggle()}
-                variant="ghost"
-                color={theme.colors.custom.danger}
-              >
-                Não!
+              <Button ref={cancelRef} onPress={() => toggle()} variant="ghost">
+                <Text color={theme.colors.custom.danger}> Não!</Text>
               </Button>
               <Button
                 onPress={onConfirmation}
