@@ -45,28 +45,30 @@ export default function ChartAccountsItem({
 
   return (
     <>
-      <Alert
-        onConfirmation={onRemove}
-        isOpen={isConfirmationOpened}
-        toggle={toggleConfirmation}
-        title={
-          <Center>
-            <Feather
-              size={36}
-              name="trash"
-              color={theme.colors.custom.danger}
-            />
-          </Center>
-        }
-        message={
-          <Center>
-            <Text>
-              Deseja excluir a conta{' '}
-              <Text bold>{`${item.code} - ${item.name}`}</Text>?
-            </Text>
-          </Center>
-        }
-      />
+      {isConfirmationOpened && (
+        <Alert
+          onConfirmation={onRemove}
+          isOpen={isConfirmationOpened}
+          toggle={toggleConfirmation}
+          title={
+            <Center>
+              <Feather
+                size={36}
+                name="trash"
+                color={theme.colors.custom.danger}
+              />
+            </Center>
+          }
+          message={
+            <Center>
+              <Text>
+                Deseja excluir a conta{' '}
+                <Text bold>{`${item.code} - ${item.name}`}</Text>?
+              </Text>
+            </Center>
+          }
+        />
+      )}
       <Pressable
         px={5}
         onPress={() => navigation.navigate('coa.put', { id: item.id })}
