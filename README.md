@@ -8,4 +8,4 @@
 - Run
 > `yarn start`
 
-APK is available [here](https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/android/%40joaohencke/ucondo-app-34ab2c35ecea4ee7b51608dd0c3d6686-signed.apk) and [here](https://drive.google.com/file/d/1dnkPoPcxZTAhEwoVn4c8R99RbwysAQe0/view?usp=sharing)
+APK is available [here](https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/android/%40joaohencke/ucondo-app-d470841a7c624d9c9af2c98b58785e4d-signed.apk) and [here](https://drive.google.com/file/d/1JSpV1ScAYtb3XjgAj2lN6t6y_6fSvBhl/view?usp=sharing)
