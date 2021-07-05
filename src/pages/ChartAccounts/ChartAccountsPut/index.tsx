@@ -96,12 +96,13 @@ export default function ChartAccountsPut(): JSX.Element {
           acceptRelease: `${acceptRelease}` === 'true',
         });
         toast.show({
+          status: 'success',
           title: 'Plano de Conta cadastrado com sucesso',
         });
         navigation.navigate('coa.list');
       } catch (e) {
-        console.log('aho');
         toast.show({
+          status: 'error',
           title: e.message,
         });
       }

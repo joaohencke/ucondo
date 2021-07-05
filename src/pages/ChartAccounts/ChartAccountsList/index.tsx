@@ -22,6 +22,7 @@ export default function ChartAccountsList(): JSX.Element {
           ... on ChartAccount {
             name
             code
+            type
           }
         }
       }

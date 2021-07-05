@@ -85,8 +85,8 @@ export default function ChartAccountsItem({
           <Text
             color={
               item.type === ChartAccountType.receita
-                ? theme.colors.custom.warning
-                : theme.colors.custom.success
+                ? theme.colors.custom.success
+                : theme.colors.custom.warning
             }
           >{`${item.code} - ${item.name}`}</Text>
           <IconButton
