@@ -4,5 +4,5 @@ import Input from '../../../components/Input';
 export const SearchInput = styled(Input)`
   height: 40px;
   flex: 1;
-  border: none;
+  border-width: 0px;
 `;

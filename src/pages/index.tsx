@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import ChartAccounts from './ChartAccounts';
 import { createStackNavigator } from '@react-navigation/stack';
+import ChartAccounts from './ChartAccounts';
 
 const { Navigator, Screen } = createStackNavigator();
 
