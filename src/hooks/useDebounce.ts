@@ -9,10 +9,10 @@ type Debouncer = (cb: Function) => void;
 export default function useDebounce({
   delay = 1000,
 }: UseDebounce = {}): Debouncer {
-  const ref = useRef();
+  const ref = useRef<number>();
 
   return useCallback((cb) => {
     clearTimeout(ref.current);
-    setTimeout(cb, delay);
+    ref.current = setTimeout(cb, delay);
   }, []);
 }
